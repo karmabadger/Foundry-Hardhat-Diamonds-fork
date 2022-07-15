@@ -1,5 +1,6 @@
-const { artifacts, ethers } = require("hardhat");
-const hre = require("hardhat");
+const ethers = require("ethers");
+const path = require("path/posix");
+
 const args = process.argv.slice(2);
 
 if (args.length != 1) {
@@ -18,7 +19,7 @@ async function printSelectors(contractName, artifactFolderPath = "../out") {
   const contractArtifact = require(contractFilePath);
   const abi = contractArtifact.abi;
   const bytecode = contractArtifact.bytecode;
-  const target = new ContractFactory(abi, bytecode);
+  const target = new ethers.ContractFactory(abi, bytecode);
   const signatures = Object.keys(target.interface.functions);
 
   const selectors = signatures.reduce((acc, val) => {
@@ -28,7 +29,7 @@ async function printSelectors(contractName, artifactFolderPath = "../out") {
     return acc;
   }, []);
 
-  const coder = utils.defaultAbiCoder;
+  const coder = ethers.utils.defaultAbiCoder;
   const coded = coder.encode(["bytes4[]"], [selectors]);
 
   process.stdout.write(coded);
