@@ -7,11 +7,12 @@ import "../contracts/facets/DiamondLoupeFacet.sol";
 import "../contracts/facets/OwnershipFacet.sol";
 
 import "../contracts/Diamond.sol";
+import "../contracts/DiamondWithOwner.sol";
 import "@forge-std/src/Test.sol";
 
 contract DiamondDeployer is Test, IDiamondCut {
     //contract types of facets to be deployed
-    Diamond diamond;
+    DiamondWithOwner diamond;
     DiamondCutFacet dCutFacet;
     DiamondLoupeFacet dLoupe;
     OwnershipFacet ownerF;
@@ -19,7 +20,7 @@ contract DiamondDeployer is Test, IDiamondCut {
     function testDeployDiamond() public {
         //deploy facets
         dCutFacet = new DiamondCutFacet();
-        diamond = new Diamond(address(this), address(dCutFacet));
+        diamond = new DiamondWithOwner(address(this), address(dCutFacet));
         dLoupe = new DiamondLoupeFacet();
         ownerF = new OwnershipFacet();
 
