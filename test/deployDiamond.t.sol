@@ -55,10 +55,11 @@ contract DiamondDeployer is Test, IDiamondCut {
         internal
         returns (bytes4[] memory selectors)
     {
-        string[] memory cmd = new string[](3);
+        string[] memory cmd = new string[](4);
         cmd[0] = "node";
         cmd[1] = "scripts/genSelectors.js";
         cmd[2] = _facetName;
+        cmd[3] = "out";
         bytes memory res = vm.ffi(cmd);
         selectors = abi.decode(res, (bytes4[]));
     }
